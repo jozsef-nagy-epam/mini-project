@@ -1,6 +1,6 @@
 package com.fortune.cookie.wisdom.web.domain;
 
-public class WisdomResponse extends AbstractResponse {
+public class WisdomResponse {
 	private final Long id;
 	private final String text;
 	private final String category;

@@ -39,7 +39,6 @@
 	</dependencies>
 
 	<build>
-		<directory>target</directory>
 		<finalName>fortune_cookie_repository</finalName>
 		<plugins>
 			<plugin>

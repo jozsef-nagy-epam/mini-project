@@ -1,5 +1,8 @@
 package com.fortune.cookie.wisdom.web.controller;
 
+import java.util.Arrays;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -9,9 +12,6 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.fortune.cookie.wisdom.service.WisdomSearchService;
-import com.fortune.cookie.wisdom.web.domain.AbstractResponse;
-import com.fortune.cookie.wisdom.web.domain.CategoriesResponse;
-import com.fortune.cookie.wisdom.web.domain.WisdomListResponse;
 import com.fortune.cookie.wisdom.web.domain.WisdomResponse;
 
 @RestController
@@ -28,19 +28,20 @@ public class WisdomRestController {
 
 	@GetMapping("/categories")
 	@ResponseStatus(HttpStatus.OK)
-	public AbstractResponse getCategories() {
-		return new CategoriesResponse(null);
+	public List<String> getCategories() {
+		return Arrays.asList("general", "future", "pull");
 	}
 
 	@GetMapping("/categories/{category}")
 	@ResponseStatus(HttpStatus.OK)
-	public AbstractResponse getWisdomsByCategories(@PathVariable("category") String category) {
-		return new WisdomListResponse(null);
+	public List<WisdomResponse> getWisdomsByCategories(@PathVariable("category") String category) {
+		return Arrays.asList(new WisdomResponse(1L, "first wisdom", "general"),
+				new WisdomResponse(1L, "second wisdom", "future"));
 	}
 
 	@GetMapping("/categories/{category}/{id}")
 	@ResponseStatus(HttpStatus.OK)
-	public AbstractResponse getWisdomById(@PathVariable("category") String category, @PathVariable("id") Long id) {
-		return new WisdomResponse(null, null, null);
+	public WisdomResponse getWisdomById(@PathVariable("category") String category, @PathVariable("id") Long id) {
+		return new WisdomResponse(1L, "first wisdom", "general");
 	}
 }
