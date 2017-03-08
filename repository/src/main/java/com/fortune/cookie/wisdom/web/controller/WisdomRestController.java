@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.fortune.cookie.wisdom.service.WisdomSearchService;
-import com.fortune.cookie.wisdom.service.domain.Category;
 import com.fortune.cookie.wisdom.web.domain.WisdomResponse;
 import com.fortune.cookie.wisdom.web.transformer.WisdomToWisdomResponseTransformer;
 
@@ -41,13 +40,13 @@ public class WisdomRestController {
 	@GetMapping("/categories/{category}")
 	@ResponseStatus(HttpStatus.OK)
 	public List<WisdomResponse> getWisdomsByCategories(@PathVariable("category") String category) {
-		return wisdomSearchService.getWisdomsByCategory(Category.getByName(category)).stream().map(transformer::convert)
+		return wisdomSearchService.getWisdomsByCategory(category).stream().map(transformer::convert)
 				.collect(Collectors.toList());
 	}
 
 	@GetMapping("/categories/{category}/{id}")
 	@ResponseStatus(HttpStatus.OK)
 	public WisdomResponse getWisdomById(@PathVariable("category") String category, @PathVariable("id") Long id) {
-		return transformer.convert(wisdomSearchService.getWisdomById(Category.getByName(category), id));
+		return transformer.convert(wisdomSearchService.getWisdomByCategoryAndId(category, id));
 	}
 }

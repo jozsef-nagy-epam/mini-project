@@ -9,7 +9,7 @@ public interface WisdomSearchService {
 
 	List<Category> getCategories();
 
-	List<Wisdom> getWisdomsByCategory(Category category);
+	List<Wisdom> getWisdomsByCategory(String category);
 
-	Wisdom getWisdomById(Category category, Long wisdomId);
+	Wisdom getWisdomByCategoryAndId(String category, Long wisdomId);
 }

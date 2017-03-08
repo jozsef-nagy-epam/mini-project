@@ -34,12 +34,36 @@ public class RepositoryData {
 		return uri.expand(parameters);
 	}
 
-	public URI getWisdomsByCategoryAndIdURI(String category, Long id) {
+	public URI getWisdomByCategoryAndIdURI(String category, Long id) {
 		UriTemplate uri = new UriTemplate(wisdomsByCategoryAndId);
 		Map<String, String> parameters = new HashMap<>();
 		parameters.put("category", category);
 		parameters.put("id", id.toString());
 		return uri.expand(parameters);
+	}
+
+	String getCategories() {
+		return categories;
+	}
+
+	void setCategories(String categories) {
+		this.categories = categories;
+	}
+
+	String getWisdomsByCategory() {
+		return wisdomsByCategory;
+	}
+
+	void setWisdomsByCategory(String wisdomsByCategory) {
+		this.wisdomsByCategory = wisdomsByCategory;
+	}
+
+	String getWisdomsByCategoryAndId() {
+		return wisdomsByCategoryAndId;
+	}
+
+	void setWisdomsByCategoryAndId(String wisdomsByCategoryAndId) {
+		this.wisdomsByCategoryAndId = wisdomsByCategoryAndId;
 	}
 
 }

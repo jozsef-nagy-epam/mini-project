@@ -11,9 +11,9 @@ import com.fortune.cookie.wisdom.service.domain.Wisdom;
 
 @Service
 public class DefaultWisdomSearchService implements WisdomSearchService {
-	private final List<Wisdom> fakeWisdoms = Arrays.asList(new Wisdom(3L, "first wisdom", Category.GENERAL),
-			new Wisdom(4L, "second wisdom", Category.PUN), new Wisdom(1L, "second wisdom", Category.FUTURE),
-			new Wisdom(2L, "second wisdom", Category.GENERAL));
+	private final List<Wisdom> fakeWisdoms = Arrays.asList(new Wisdom(1L, "first wisdom", Category.GENERAL),
+			new Wisdom(2L, "second wisdom", Category.PUN), new Wisdom(3L, "third wisdom", Category.FUTURE),
+			new Wisdom(4L, "fourth wisdom", Category.GENERAL));
 
 	@Override
 	public List<Category> getCategories() {
@@ -22,18 +22,20 @@ public class DefaultWisdomSearchService implements WisdomSearchService {
 	}
 
 	@Override
-	public List<Wisdom> getWisdomsByCategory(Category category) {
+	public List<Wisdom> getWisdomsByCategory(String category) {
 		// TODO Auto-generated method stub
-		return fakeWisdoms.stream().filter(wisdom -> wisdom.getCategory().equals(category))
+		Category categoryEnum = Category.getByName(category);
+		return fakeWisdoms.stream().filter(wisdom -> wisdom.getCategory().equals(categoryEnum))
 				.collect(Collectors.toList());
 	}
 
 	@Override
-	public Wisdom getWisdomById(Category category, Long wisdomId) {
+	public Wisdom getWisdomByCategoryAndId(String category, Long wisdomId) {
 		// TODO Auto-generated method stub
+		Category categoryEnum = Category.getByName(category);
 		return fakeWisdoms.stream()
-				.filter(wisdom -> wisdom.getCategory().equals(category) && wisdom.getId().equals(wisdomId)).findAny()
-				.get();
+				.filter(wisdom -> wisdom.getCategory().equals(categoryEnum) && wisdom.getId().equals(wisdomId))
+				.findAny().get();
 	}
 
 }

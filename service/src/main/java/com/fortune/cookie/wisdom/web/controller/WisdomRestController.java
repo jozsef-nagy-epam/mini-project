@@ -53,11 +53,11 @@ public class WisdomRestController {
 	@ResponseStatus(HttpStatus.OK)
 	public AbstractResponse getWisdomByCategoryAndId(@PathVariable("category") String category,
 			@PathVariable("id") Long id) {
-		return addLinkToResponse(transformer.convert(wisdomSearchService.getWisdomById(category, id)));
+		return addLinkToResponse(transformer.convert(wisdomSearchService.getWisdomByCategoryAndId(category, id)));
 	}
 
 	private CategoryResponse addLinkToResponse(CategoryResponse response) {
-		response.addLink("wisdomsByCategory",
+		response.addLink("wisdoms",
 				linkTo(methodOn(WisdomRestController.class).getWisdomsByCategories(response.getCategory())).toUri());
 		return response;
 	}

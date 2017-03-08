@@ -14,11 +14,11 @@ import com.fortune.cookie.wisdom.service.transformer.ResponseToPojoTransformer;
 @Service
 public class DefaultWisdomSearchService implements WisdomSearchService {
 
-	private final RepositoryData repoData;
+	private RepositoryData repoData;
 
-	private final RestTemplate restTemplate;
+	private RestTemplate restTemplate;
 
-	private final ResponseToPojoTransformer responseTransformer;
+	private ResponseToPojoTransformer responseTransformer;
 
 	@Autowired
 	public DefaultWisdomSearchService(RepositoryData repoData, RestTemplate restTemplate,
@@ -42,9 +42,9 @@ public class DefaultWisdomSearchService implements WisdomSearchService {
 	}
 
 	@Override
-	public Wisdom getWisdomById(String category, Long wisdomId) {
+	public Wisdom getWisdomByCategoryAndId(String category, Long wisdomId) {
 		ResponseEntity<Wisdom> wisdomResponse = restTemplate
-				.getForEntity(repoData.getWisdomsByCategoryAndIdURI(category, wisdomId), Wisdom.class);
+				.getForEntity(repoData.getWisdomByCategoryAndIdURI(category, wisdomId), Wisdom.class);
 		return wisdomResponse.getBody();
 	}
 

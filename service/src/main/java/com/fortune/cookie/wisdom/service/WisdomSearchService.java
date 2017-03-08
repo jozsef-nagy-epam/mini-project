@@ -9,5 +9,5 @@ public interface WisdomSearchService {
 
 	List<Wisdom> getWisdomsByCategory(String category);
 
-	Wisdom getWisdomById(String category, Long wisdomId);
+	Wisdom getWisdomByCategoryAndId(String category, Long wisdomId);
 }

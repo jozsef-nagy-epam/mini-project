@@ -18,4 +18,9 @@ public class AbstractResponse {
 	public void addLink(String name, URI uri) {
 		links.put(name, uri);
 	}
+
+	public Map<String, URI> getLinks() {
+		return links;
+	}
+
 }
