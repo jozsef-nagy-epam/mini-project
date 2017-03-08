@@ -2,12 +2,15 @@ package com.fortune.cookie.wisdom.service;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 
 import com.fortune.cookie.wisdom.service.domain.Category;
 import com.fortune.cookie.wisdom.service.domain.Wisdom;
+import com.fortune.cookie.wisdom.service.domain.exception.CategoryDoesNotExistException;
+import com.fortune.cookie.wisdom.service.domain.exception.WisdomDoesNotExistException;
 
 @Service
 public class DefaultWisdomSearchService implements WisdomSearchService {
@@ -17,25 +20,33 @@ public class DefaultWisdomSearchService implements WisdomSearchService {
 
 	@Override
 	public List<Category> getCategories() {
-		// TODO Auto-generated method stub
 		return Arrays.asList(Category.values());
 	}
 
 	@Override
 	public List<Wisdom> getWisdomsByCategory(String category) {
-		// TODO Auto-generated method stub
-		Category categoryEnum = Category.getByName(category);
+		Category categoryEnum = validateCategory(category);
 		return fakeWisdoms.stream().filter(wisdom -> wisdom.getCategory().equals(categoryEnum))
 				.collect(Collectors.toList());
 	}
 
 	@Override
 	public Wisdom getWisdomByCategoryAndId(String category, Long wisdomId) {
-		// TODO Auto-generated method stub
+		Category categoryEnum = validateCategory(category);
+		Optional<Wisdom> wisdom = fakeWisdoms.stream()
+				.filter(w -> w.getCategory().equals(categoryEnum) && w.getId().equals(wisdomId)).findAny();
+		if (!wisdom.isPresent()) {
+			throw new WisdomDoesNotExistException("The wisdom with id(" + wisdomId + ") does not exist!");
+		}
+		return wisdom.get();
+	}
+
+	private Category validateCategory(String category) {
 		Category categoryEnum = Category.getByName(category);
-		return fakeWisdoms.stream()
-				.filter(wisdom -> wisdom.getCategory().equals(categoryEnum) && wisdom.getId().equals(wisdomId))
-				.findAny().get();
+		if (categoryEnum == null) {
+			throw new CategoryDoesNotExistException("the category(" + category + ") does not exist!");
+		}
+		return categoryEnum;
 	}
 
 }

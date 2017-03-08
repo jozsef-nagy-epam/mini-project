@@ -8,11 +8,12 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.fortune.cookie.wisdom.service.WisdomSearchService;
-import com.fortune.cookie.wisdom.web.domain.WisdomResponse;
+import com.fortune.cookie.wisdom.service.domain.exception.CategoryDoesNotExistException;
+import com.fortune.cookie.wisdom.service.domain.exception.WisdomDoesNotExistException;
+import com.fortune.cookie.wisdom.web.domain.Response;
 import com.fortune.cookie.wisdom.web.transformer.WisdomToWisdomResponseTransformer;
 
 @RestController
@@ -31,22 +32,33 @@ public class WisdomRestController {
 	}
 
 	@GetMapping("/categories")
-	@ResponseStatus(HttpStatus.OK)
-	public List<String> getCategories() {
-		return wisdomSearchService.getCategories().stream().map(category -> category.getName())
+	public Response getCategories() {
+		List<String> categories = wisdomSearchService.getCategories().stream().map(category -> category.getName())
 				.collect(Collectors.toList());
+		return categories.isEmpty() ? new Response(HttpStatus.NOT_FOUND, "There is no category")
+				: new Response(categories);
 	}
 
 	@GetMapping("/categories/{category}")
-	@ResponseStatus(HttpStatus.OK)
-	public List<WisdomResponse> getWisdomsByCategories(@PathVariable("category") String category) {
-		return wisdomSearchService.getWisdomsByCategory(category).stream().map(transformer::convert)
-				.collect(Collectors.toList());
+	public Response getWisdomsByCategories(@PathVariable("category") String category) {
+		Response response = null;
+		try {
+			response = new Response(wisdomSearchService.getWisdomsByCategory(category).stream()
+					.map(transformer::convert).collect(Collectors.toList()));
+		} catch (CategoryDoesNotExistException e) {
+			response = new Response(HttpStatus.BAD_REQUEST, e.getMessage());
+		}
+		return response;
 	}
 
 	@GetMapping("/categories/{category}/{id}")
-	@ResponseStatus(HttpStatus.OK)
-	public WisdomResponse getWisdomById(@PathVariable("category") String category, @PathVariable("id") Long id) {
-		return transformer.convert(wisdomSearchService.getWisdomByCategoryAndId(category, id));
+	public Response getWisdomById(@PathVariable("category") String category, @PathVariable("id") Long id) {
+		Response response = null;
+		try {
+			response = new Response(transformer.convert(wisdomSearchService.getWisdomByCategoryAndId(category, id)));
+		} catch (CategoryDoesNotExistException | WisdomDoesNotExistException e) {
+			response = new Response(HttpStatus.BAD_REQUEST, e.getMessage());
+		}
+		return response;
 	}
 }
