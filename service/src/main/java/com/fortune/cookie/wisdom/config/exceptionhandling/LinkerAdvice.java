@@ -14,7 +14,7 @@ import com.fortune.cookie.wisdom.web.domain.WisdomResponse;
 import com.fortune.cookie.wisdom.web.domain.factory.ResponseLinkFactory;
 
 @ControllerAdvice(basePackageClasses = WisdomRestController.class)
-public class LinkerAdvice implements ResponseBodyAdvice<Object> {
+public class LinkerAdvice implements ResponseBodyAdvice<WisdomResponse> {
 
 	private ResponseLinkFactory linkFactory;
 
@@ -30,10 +30,10 @@ public class LinkerAdvice implements ResponseBodyAdvice<Object> {
 	}
 
 	@Override
-	public Object beforeBodyWrite(Object body, MethodParameter returnType, MediaType selectedContentType,
-			Class<? extends HttpMessageConverter<?>> selectedConverterType, ServerHttpRequest request,
-			ServerHttpResponse response) {
-		linkFactory.addLinkToResponse((WisdomResponse) body);
+	public WisdomResponse beforeBodyWrite(WisdomResponse body, MethodParameter returnType,
+			MediaType selectedContentType, Class<? extends HttpMessageConverter<?>> selectedConverterType,
+			ServerHttpRequest request, ServerHttpResponse response) {
+		body.addLink(linkFactory.getLinkForWisdom(body.getCategory(), body.getId(), "self"));
 		return body;
 	}
 

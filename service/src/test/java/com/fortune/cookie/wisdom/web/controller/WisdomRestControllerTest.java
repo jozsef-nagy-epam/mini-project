@@ -84,8 +84,6 @@ public class WisdomRestControllerTest {
 		Wisdom wisdom = new Wisdom(id, category, "test_text");
 		WisdomResponse wisdomResponse = new WisdomResponse(id, category, "test_text");
 		BDDMockito.given(transformer.convert(wisdom)).willReturn(wisdomResponse);
-		BDDMockito.given(linkFactory.addLinkToResponse(BDDMockito.any(WisdomResponse.class)))
-				.willReturn(wisdomResponse);
 		BDDMockito.given(service.getWisdomByCategoryAndId(BDDMockito.anyString(), BDDMockito.anyLong()))
 				.willReturn(wisdom);
 		// WHEN
