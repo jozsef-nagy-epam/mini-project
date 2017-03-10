@@ -11,6 +11,7 @@ import org.springframework.web.util.UriTemplate;
 
 @Component
 @PropertySource(value = "classpath:repositoryURLs.properties")
+// In essence this is a url builder, so why not call it what it is?
 public class RepositoryData {
 
 	@Value("${getCategories}")
@@ -34,6 +35,7 @@ public class RepositoryData {
 		return uri.expand(parameters);
 	}
 
+	// there is a lot of repeated code from getWisdomsByCategoryURI()
 	public URI getWisdomByCategoryAndIdURI(String category, Long id) {
 		UriTemplate uri = new UriTemplate(wisdomsByCategoryAndId);
 		Map<String, String> parameters = new HashMap<>();

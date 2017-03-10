@@ -37,9 +37,17 @@ public class WisdomRestController {
 
 	@GetMapping("/categories")
 	@ResponseStatus(HttpStatus.OK)
+    // since addLink is a common theme for every controller method
+    // and comes off a bit boilerplate-ish
+    // you might want to create a @ConrtollerAdvice to add the links via some aop-magic
 	public List<AbstractResponse> getCategories() {
-		return wisdomSearchService.getCategories().stream().map(CategoryResponse::new)
-				.map(categoryResponse -> addLinkToResponse(categoryResponse)).collect(Collectors.toList());
+	    // suggest formating:
+		return wisdomSearchService.getCategories()
+                .stream()
+                .map(CategoryResponse::new)
+                //.map(linkAppender::addLink)
+				.map(categoryResponse -> addLinkToResponse(categoryResponse))
+                .collect(Collectors.toList());
 	}
 
 	@GetMapping("/categories/{category}")
