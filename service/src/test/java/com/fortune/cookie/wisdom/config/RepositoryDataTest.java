@@ -1,11 +1,10 @@
 package com.fortune.cookie.wisdom.config;
 
+import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.MatcherAssert.assertThat;
 
 import org.junit.Before;
 import org.junit.Test;
-
-import com.fortune.cookie.wisdom.config.RepositoryData;
 
 public class RepositoryDataTest {
 	private static final String WISDOMS_BY_CATEGORY_AND_ID_URL = "http://repository/test/categories/{category}/{id}";
@@ -29,7 +28,7 @@ public class RepositoryDataTest {
 		// WHEN
 		String actual = underTest.getCategories().toString();
 		// THEN
-		assertThat("Categories url is correct", CATEGORIES_URL.equals(actual));
+		assertThat("Categories url is correct", actual, equalTo(CATEGORIES_URL));
 
 	}
 
@@ -41,7 +40,7 @@ public class RepositoryDataTest {
 		// WHEN
 		String actual = underTest.getWisdomsByCategoryURI(category).toString();
 		// THEN
-		assertThat("WisdomsByCategories url is correct", actual.equals(expected));
+		assertThat("WisdomsByCategories url is correct", actual, equalTo(expected));
 
 	}
 
@@ -54,7 +53,7 @@ public class RepositoryDataTest {
 		// WHEN
 		String actual = underTest.getWisdomByCategoryAndIdURI(category, 1L).toString();
 		// THEN
-		assertThat("WisdomByCategoryAndId url is correct", actual.equals(expected));
+		assertThat("WisdomByCategoryAndId url is correct", actual, equalTo(expected));
 
 	}
 }

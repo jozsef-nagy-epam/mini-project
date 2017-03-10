@@ -1,6 +1,8 @@
 package com.fortune.cookie.wisdom.web.transformer;
 
-import org.junit.Assert;
+import static org.hamcrest.CoreMatchers.equalTo;
+import static org.hamcrest.MatcherAssert.assertThat;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.BDDMockito;
@@ -30,9 +32,9 @@ public class WisdomToWisdomResponseTransformerTest {
 		BDDMockito.then(wisdom).should(BDDMockito.times(1)).getId();
 		BDDMockito.then(wisdom).should(BDDMockito.times(1)).getText();
 		BDDMockito.then(wisdom).should(BDDMockito.times(1)).getCategory();
-		Assert.assertEquals(wisdom.getId(), actual.getId());
-		Assert.assertEquals(wisdom.getText(), actual.getText());
-		Assert.assertEquals(wisdom.getCategory(), actual.getCategory());
+		assertThat("correctness of id", actual.getId(), equalTo(wisdom.getId()));
+		assertThat("correctness of text", actual.getText(), equalTo(wisdom.getText()));
+		assertThat("correctness of category", actual.getCategory(), equalTo(wisdom.getCategory()));
 	}
 
 	private Wisdom createWisdomSpy() {
