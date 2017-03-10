@@ -7,6 +7,7 @@ import java.util.List;
 import org.springframework.stereotype.Component;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fortune.cookie.wisdom.service.domain.exception.ResponseConvertException;
 
 @Component
 public class ResponseToPojoTransformer {
@@ -19,6 +20,7 @@ public class ResponseToPojoTransformer {
 					mapper.getTypeFactory().constructCollectionType(List.class, listType)));
 		} catch (IOException e) {
 			e.printStackTrace();
+			throw new ResponseConvertException("Error processing data", e);
 		}
 		return result;
 	}

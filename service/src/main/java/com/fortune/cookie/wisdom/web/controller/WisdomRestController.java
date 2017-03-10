@@ -1,8 +1,5 @@
 package com.fortune.cookie.wisdom.web.controller;
 
-import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
-import static org.springframework.hateoas.mvc.ControllerLinkBuilder.methodOn;
-
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -17,56 +14,47 @@ import org.springframework.web.bind.annotation.RestController;
 import com.fortune.cookie.wisdom.service.WisdomSearchService;
 import com.fortune.cookie.wisdom.web.domain.AbstractResponse;
 import com.fortune.cookie.wisdom.web.domain.CategoryResponse;
-import com.fortune.cookie.wisdom.web.domain.WisdomResponse;
+import com.fortune.cookie.wisdom.web.domain.factory.ResponseLinkFactory;
 import com.fortune.cookie.wisdom.web.transformer.WisdomToWisdomResponseTransformer;
 
 @RestController
 @RequestMapping("/api")
-public class WisdomRestController {
+public class WisdomRestController extends ResponseLinkFactory {
 
 	private final WisdomSearchService wisdomSearchService;
 
 	private final WisdomToWisdomResponseTransformer transformer;
 
+	private final ResponseLinkFactory linkFactory;
+
 	@Autowired
 	public WisdomRestController(WisdomSearchService wisdomSearchService,
-			WisdomToWisdomResponseTransformer wisdomToWisdomResponseTransformer) {
+			WisdomToWisdomResponseTransformer wisdomToWisdomResponseTransformer, ResponseLinkFactory linkFactory) {
 		this.wisdomSearchService = wisdomSearchService;
 		this.transformer = wisdomToWisdomResponseTransformer;
+		this.linkFactory = linkFactory;
 	}
 
 	@GetMapping("/categories")
 	@ResponseStatus(HttpStatus.OK)
 	public List<AbstractResponse> getCategories() {
 		return wisdomSearchService.getCategories().stream().map(CategoryResponse::new)
-				.map(categoryResponse -> addLinkToResponse(categoryResponse)).collect(Collectors.toList());
+				.map(categoryResponse -> linkFactory.addLinkToResponse(categoryResponse)).collect(Collectors.toList());
 	}
 
 	@GetMapping("/categories/{category}")
 	@ResponseStatus(HttpStatus.OK)
 	public List<AbstractResponse> getWisdomsByCategories(@PathVariable("category") String category) {
 		return wisdomSearchService.getWisdomsByCategory(category).stream().map(transformer::convert)
-				.map(wisdomResponse -> addLinkToResponse(wisdomResponse)).collect(Collectors.toList());
+				.map(wisdomResponse -> linkFactory.addLinkToResponse(wisdomResponse)).collect(Collectors.toList());
 	}
 
 	@GetMapping("/categories/{category}/{id}")
 	@ResponseStatus(HttpStatus.OK)
 	public AbstractResponse getWisdomByCategoryAndId(@PathVariable("category") String category,
 			@PathVariable("id") Long id) {
-		return addLinkToResponse(transformer.convert(wisdomSearchService.getWisdomByCategoryAndId(category, id)));
-	}
-
-	private CategoryResponse addLinkToResponse(CategoryResponse response) {
-		response.addLink("wisdoms",
-				linkTo(methodOn(WisdomRestController.class).getWisdomsByCategories(response.getCategory())).toUri());
-		return response;
-	}
-
-	private WisdomResponse addLinkToResponse(WisdomResponse response) {
-		response.addLink("self", linkTo(
-				methodOn(WisdomRestController.class).getWisdomByCategoryAndId(response.getCategory(), response.getId()))
-						.toUri());
-		return response;
+		return linkFactory
+				.addLinkToResponse(transformer.convert(wisdomSearchService.getWisdomByCategoryAndId(category, id)));
 	}
 
 }
