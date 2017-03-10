@@ -1,8 +1,11 @@
-package com.fortune.cookie.wisdom.service.config;
+package com.fortune.cookie.wisdom.config;
 
-import org.junit.Assert;
+import static org.hamcrest.MatcherAssert.assertThat;
+
 import org.junit.Before;
 import org.junit.Test;
+
+import com.fortune.cookie.wisdom.config.RepositoryData;
 
 public class RepositoryDataTest {
 	private static final String WISDOMS_BY_CATEGORY_AND_ID_URL = "http://repository/test/categories/{category}/{id}";
@@ -26,7 +29,7 @@ public class RepositoryDataTest {
 		// WHEN
 		String actual = underTest.getCategories().toString();
 		// THEN
-		Assert.assertEquals(CATEGORIES_URL, actual);
+		assertThat("Categories url is correct", CATEGORIES_URL.equals(actual));
 
 	}
 
@@ -38,12 +41,12 @@ public class RepositoryDataTest {
 		// WHEN
 		String actual = underTest.getWisdomsByCategoryURI(category).toString();
 		// THEN
-		Assert.assertEquals(expected, actual);
+		assertThat("WisdomsByCategories url is correct", actual.equals(expected));
 
 	}
 
 	@Test
-	public void testGetWisdomsByCategoryAndIdUriShouldReturnTheCorrectURI() {
+	public void testGetWisdomByCategoryAndIdUriShouldReturnTheCorrectURI() {
 		// GIVEN
 		String category = "test_category";
 		Long id = 1L;
@@ -51,7 +54,7 @@ public class RepositoryDataTest {
 		// WHEN
 		String actual = underTest.getWisdomByCategoryAndIdURI(category, 1L).toString();
 		// THEN
-		Assert.assertEquals(expected, actual);
+		assertThat("WisdomByCategoryAndId url is correct", actual.equals(expected));
 
 	}
 }

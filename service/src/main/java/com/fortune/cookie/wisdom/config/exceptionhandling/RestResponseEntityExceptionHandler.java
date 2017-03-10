@@ -1,4 +1,4 @@
-package com.fortune.cookie.wisdom.config;
+package com.fortune.cookie.wisdom.config.exceptionhandling;
 
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;

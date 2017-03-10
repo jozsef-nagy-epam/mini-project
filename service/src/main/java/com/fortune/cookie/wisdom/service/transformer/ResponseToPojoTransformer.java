@@ -12,7 +12,7 @@ import com.fortune.cookie.wisdom.service.domain.exception.ResponseConvertExcepti
 @Component
 public class ResponseToPojoTransformer {
 
-	public <T> List<T> convertResponseToWisdoms(String responseBody, Class<T> listType) {
+	public <T> List<T> convertResponseToList(String responseBody, Class<T> listType) {
 		ObjectMapper mapper = new ObjectMapper();
 		List<T> result = new ArrayList<>();
 		try {
