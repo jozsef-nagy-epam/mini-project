@@ -8,37 +8,34 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
 import com.fortune.cookie.wisdom.config.RepositoryData;
+import com.fortune.cookie.wisdom.service.domain.CategoryList;
 import com.fortune.cookie.wisdom.service.domain.Wisdom;
-import com.fortune.cookie.wisdom.service.transformer.ResponseToPojoTransformer;
+import com.fortune.cookie.wisdom.service.domain.WisdomList;
 
 @Service
 public class RestTemplateBasedWisdomSearchService implements WisdomSearchService {
 
-	private RepositoryData repoData;
-
-	private RestTemplate restTemplate;
-
-	private ResponseToPojoTransformer responseTransformer;
+	private final RepositoryData repoData;
+	private final RestTemplate restTemplate;
 
 	@Autowired
-	public RestTemplateBasedWisdomSearchService(RepositoryData repoData, RestTemplate restTemplate,
-			ResponseToPojoTransformer responseTransformer) {
+	public RestTemplateBasedWisdomSearchService(RepositoryData repoData, RestTemplate restTemplate) {
 		this.repoData = repoData;
 		this.restTemplate = restTemplate;
-		this.responseTransformer = responseTransformer;
 	}
 
 	@Override
 	public List<String> getCategories() {
-		ResponseEntity<String> response = restTemplate.getForEntity(repoData.getCategoriesURI(), String.class);
-		return responseTransformer.convertResponseToList(response.getBody(), String.class);
+		ResponseEntity<CategoryList> response = restTemplate.getForEntity(repoData.getCategoriesURI(),
+				CategoryList.class);
+		return response.getBody().getCategories();
 	}
 
 	@Override
 	public List<Wisdom> getWisdomsByCategory(String category) {
-		ResponseEntity<String> response = restTemplate.getForEntity(repoData.getWisdomsByCategoryURI(category),
-				String.class);
-		return responseTransformer.convertResponseToList(response.getBody(), Wisdom.class);
+		ResponseEntity<WisdomList> response = restTemplate.getForEntity(repoData.getWisdomsByCategoryURI(category),
+				WisdomList.class);
+		return response.getBody().getWisdoms();
 	}
 
 	@Override

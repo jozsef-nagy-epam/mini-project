@@ -2,7 +2,6 @@ package com.fortune.cookie.wisdom.service;
 
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.util.Collections;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -16,7 +15,6 @@ import org.springframework.web.client.RestTemplate;
 
 import com.fortune.cookie.wisdom.config.RepositoryData;
 import com.fortune.cookie.wisdom.service.domain.Wisdom;
-import com.fortune.cookie.wisdom.service.transformer.ResponseToPojoTransformer;
 
 public class RestTemplateBasedWisdomSearchServiceTest {
 	@InjectMocks
@@ -25,8 +23,6 @@ public class RestTemplateBasedWisdomSearchServiceTest {
 	private RepositoryData repoData;
 	@Mock
 	private RestTemplate restTemplate;
-	@Mock
-	private ResponseToPojoTransformer transformer;
 
 	@Before
 	public void setUp() {
@@ -41,14 +37,11 @@ public class RestTemplateBasedWisdomSearchServiceTest {
 		ResponseEntity<String> response = new ResponseEntity<>(responseBody, HttpStatus.OK);
 		BDDMockito.given(repoData.getCategoriesURI()).willReturn(uri);
 		BDDMockito.given(restTemplate.getForEntity(uri, String.class)).willReturn(response);
-		BDDMockito.given(transformer.convertResponseToList(responseBody, String.class))
-				.willReturn(Collections.EMPTY_LIST);
 		// WHEN
 		underTest.getCategories();
 		// THEN
 		BDDMockito.then(repoData).should(BDDMockito.times(1)).getCategoriesURI();
 		BDDMockito.then(restTemplate).should(BDDMockito.times(1)).getForEntity(uri, String.class);
-		BDDMockito.then(transformer).should(BDDMockito.times(1)).convertResponseToList(responseBody, String.class);
 	}
 
 	@Test
@@ -60,14 +53,11 @@ public class RestTemplateBasedWisdomSearchServiceTest {
 		ResponseEntity<String> response = new ResponseEntity<>(responseBody, HttpStatus.OK);
 		BDDMockito.given(repoData.getWisdomsByCategoryURI(category)).willReturn(uri);
 		BDDMockito.given(restTemplate.getForEntity(uri, String.class)).willReturn(response);
-		BDDMockito.given(transformer.convertResponseToList(responseBody, String.class))
-				.willReturn(Collections.EMPTY_LIST);
 		// WHEN
 		underTest.getWisdomsByCategory(category);
 		// THEN
 		BDDMockito.then(repoData).should(BDDMockito.times(1)).getWisdomsByCategoryURI(category);
 		BDDMockito.then(restTemplate).should(BDDMockito.times(1)).getForEntity(uri, String.class);
-		BDDMockito.then(transformer).should(BDDMockito.times(1)).convertResponseToList(responseBody, Wisdom.class);
 	}
 
 	@Test

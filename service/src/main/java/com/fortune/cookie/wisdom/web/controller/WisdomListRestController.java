@@ -1,5 +1,8 @@
 package com.fortune.cookie.wisdom.web.controller;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,24 +17,23 @@ import com.fortune.cookie.wisdom.web.transformer.WisdomToWisdomResponseTransform
 
 @RestController
 @RequestMapping("/api")
-public class WisdomRestController {
-
+public class WisdomListRestController {
 	private final WisdomSearchService wisdomSearchService;
 
 	private final WisdomToWisdomResponseTransformer transformer;
 
 	@Autowired
-	public WisdomRestController(WisdomSearchService wisdomSearchService,
-			WisdomToWisdomResponseTransformer wisdomToWisdomResponseTransformer) {
+	public WisdomListRestController(WisdomSearchService wisdomSearchService,
+			WisdomToWisdomResponseTransformer transformer) {
+		super();
 		this.wisdomSearchService = wisdomSearchService;
-		this.transformer = wisdomToWisdomResponseTransformer;
+		this.transformer = transformer;
 	}
 
-	@GetMapping("/categories/{category}/{id}")
+	@GetMapping("/categories/{category}")
 	@ResponseStatus(HttpStatus.OK)
-	public AbstractResponse getWisdomByCategoryAndId(@PathVariable("category") String category,
-			@PathVariable("id") Long id) {
-		return transformer.convert(wisdomSearchService.getWisdomByCategoryAndId(category, id));
+	public List<AbstractResponse> getWisdomsByCategories(@PathVariable("category") String category) {
+		return wisdomSearchService.getWisdomsByCategory(category).stream().map(transformer::convert)
+				.collect(Collectors.toList());
 	}
-
 }
