@@ -41,8 +41,9 @@ public class Wisdom {
 	public static class WisdomBuilder {
 		private Wisdom wisdom;
 
-		public WisdomBuilder() {
-			wisdom = new Wisdom();
+		public WisdomBuilder create() {
+			this.wisdom = new Wisdom();
+			return this;
 		}
 
 		public WisdomBuilder withId(Long id) {
@@ -62,7 +63,7 @@ public class Wisdom {
 
 		public Wisdom build() {
 			Wisdom result = wisdom;
-			wisdom = new Wisdom();
+			wisdom = null;
 			return result;
 		}
 	}
