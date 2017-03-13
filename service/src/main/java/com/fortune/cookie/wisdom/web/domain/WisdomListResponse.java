@@ -1,6 +1,6 @@
 package com.fortune.cookie.wisdom.web.domain;
 
-import java.util.List;
+import java.util.Set;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
@@ -9,9 +9,9 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 public class WisdomListResponse extends AbstractResponse {
 	private final String category;
 	@JsonProperty("wisdoms")
-	private final List<WisdomResponse> wisdoms;
+	private final Set<WisdomResponse> wisdoms;
 
-	public WisdomListResponse(String category, List<WisdomResponse> wisdoms) {
+	public WisdomListResponse(String category, Set<WisdomResponse> wisdoms) {
 		this.wisdoms = wisdoms;
 		this.category = category;
 	}
@@ -20,7 +20,7 @@ public class WisdomListResponse extends AbstractResponse {
 		return category;
 	}
 
-	public List<WisdomResponse> getWisdoms() {
+	public Set<WisdomResponse> getWisdoms() {
 		return wisdoms;
 	}
 

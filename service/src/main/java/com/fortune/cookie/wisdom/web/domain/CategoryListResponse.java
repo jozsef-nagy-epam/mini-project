@@ -1,6 +1,6 @@
 package com.fortune.cookie.wisdom.web.domain;
 
-import java.util.List;
+import java.util.Set;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
@@ -8,14 +8,14 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 @JsonPropertyOrder({ "categories", "_links" })
 public class CategoryListResponse extends AbstractResponse {
 	@JsonProperty("categories")
-	private final List<CategoryResponse> categories;
+	private final Set<CategoryResponse> categories;
 
-	public CategoryListResponse(List<CategoryResponse> categories) {
+	public CategoryListResponse(Set<CategoryResponse> categories) {
 		super();
 		this.categories = categories;
 	}
 
-	public List<CategoryResponse> getCategories() {
+	public Set<CategoryResponse> getCategories() {
 		return categories;
 	}
 

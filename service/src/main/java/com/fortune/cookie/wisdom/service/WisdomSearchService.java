@@ -1,13 +1,13 @@
 package com.fortune.cookie.wisdom.service;
 
-import java.util.List;
+import java.util.Set;
 
 import com.fortune.cookie.wisdom.service.domain.Wisdom;
 
 public interface WisdomSearchService {
-	List<String> getCategories();
+	Set<String> getCategories();
 
-	List<Wisdom> getWisdomsByCategory(String category);
+	Set<Wisdom> getWisdomsByCategory(String category);
 
 	Wisdom getWisdomByCategoryAndId(String category, Long wisdomId);
 }

@@ -1,23 +1,23 @@
 package com.fortune.cookie.wisdom.service.domain;
 
-import java.util.List;
+import java.util.Set;
 
 public class WisdomList {
-	private List<Wisdom> wisdoms;
+	private Set<Wisdom> wisdoms;
 
 	public WisdomList() {
 	}
 
-	public WisdomList(List<Wisdom> wisdoms) {
+	public WisdomList(Set<Wisdom> wisdoms) {
 		super();
 		this.wisdoms = wisdoms;
 	}
 
-	public List<Wisdom> getWisdoms() {
+	public Set<Wisdom> getWisdoms() {
 		return wisdoms;
 	}
 
-	void setWisdoms(List<Wisdom> wisdoms) {
+	void setWisdoms(Set<Wisdom> wisdoms) {
 		this.wisdoms = wisdoms;
 	}
 

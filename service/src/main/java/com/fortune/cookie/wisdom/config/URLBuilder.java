@@ -11,7 +11,7 @@ import org.springframework.web.util.UriTemplate;
 
 @Component
 @PropertySource(value = "classpath:repositoryURLs.properties")
-public class RepositoryData {
+public class URLBuilder {
 
 	@Value("${getCategories}")
 	private String categories;

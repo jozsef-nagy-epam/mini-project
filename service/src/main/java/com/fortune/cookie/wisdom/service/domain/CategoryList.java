@@ -1,23 +1,23 @@
 package com.fortune.cookie.wisdom.service.domain;
 
-import java.util.List;
+import java.util.Set;
 
 public class CategoryList {
-	private List<String> categories;
+	private Set<String> categories;
 
 	public CategoryList() {
 	}
 
-	public CategoryList(List<String> categories) {
+	public CategoryList(Set<String> categories) {
 		super();
 		this.categories = categories;
 	}
 
-	public List<String> getCategories() {
+	public Set<String> getCategories() {
 		return categories;
 	}
 
-	void setCategories(List<String> categories) {
+	void setCategories(Set<String> categories) {
 		this.categories = categories;
 	}
 

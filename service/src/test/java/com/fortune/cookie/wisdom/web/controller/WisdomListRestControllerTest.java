@@ -5,7 +5,8 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.instanceOf;
 
 import java.util.Arrays;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -33,7 +34,7 @@ public class WisdomListRestControllerTest {
 		service = Mockito.mock(RestTemplateBasedWisdomSearchService.class);
 		transformer = Mockito.mock(WisdomToWisdomResponseTransformer.class);
 		underTest = new WisdomListRestController(service, transformer);
-		List<Wisdom> wisdoms = Arrays.asList(wisdom);
+		Set<Wisdom> wisdoms = new HashSet<>(Arrays.asList(wisdom));
 		BDDMockito.given(transformer.convert(wisdom)).willReturn(wisdomResponse);
 		BDDMockito.given(service.getWisdomsByCategory(BDDMockito.anyString())).willReturn(wisdoms);
 	}
@@ -46,8 +47,8 @@ public class WisdomListRestControllerTest {
 		// THEN
 		assertThat("category is the same as requested", response.getCategory(), equalTo(category));
 		assertThat("size of response list", response.getWisdoms().size() == 1);
-		assertThat("response type check", response.getWisdoms().get(0), instanceOf(WisdomResponse.class));
-		assertThat("response contains the correct wisdom", ((WisdomResponse) response.getWisdoms().get(0)),
+		assertThat("response type check", response.getWisdoms().iterator().next(), instanceOf(WisdomResponse.class));
+		assertThat("response contains the correct wisdom", ((WisdomResponse) response.getWisdoms().iterator().next()),
 				equalTo(wisdomResponse));
 	}
 }

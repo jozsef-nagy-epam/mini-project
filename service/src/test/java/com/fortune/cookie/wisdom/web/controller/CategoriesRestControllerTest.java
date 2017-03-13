@@ -5,7 +5,8 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.instanceOf;
 
 import java.util.Arrays;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -34,14 +35,15 @@ public class CategoriesRestControllerTest {
 	public void testGetCategoriesShouldCallServiceAndTransformerAndLinkFactory() {
 		// GIVEN
 		String category = "Test_category";
-		List<String> categories = Arrays.asList(category);
+		Set<String> categories = new HashSet<>(Arrays.asList(category));
 		BDDMockito.given(service.getCategories()).willReturn(categories);
 		// WHEN
 		CategoryListResponse response = underTest.getCategories();
 		// THEN
 		assertThat("size of response list", response.getCategories().size() == 1);
-		assertThat("response type check", response.getCategories().get(0), instanceOf(CategoryResponse.class));
+		assertThat("response type check", response.getCategories().iterator().next(),
+				instanceOf(CategoryResponse.class));
 		assertThat("response contains the correct category",
-				((CategoryResponse) response.getCategories().get(0)).getCategory(), equalTo(category));
+				((CategoryResponse) response.getCategories().iterator().next()).getCategory(), equalTo(category));
 	}
 }

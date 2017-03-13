@@ -34,7 +34,7 @@ public class CategoriesRestController {
 	@ResponseStatus(HttpStatus.OK)
 	public CategoryListResponse getCategories() {
 		CategoryListResponse categories = new CategoryListResponse(
-				wisdomSearchService.getCategories().stream().map(CategoryResponse::new).collect(Collectors.toList()));
+				wisdomSearchService.getCategories().stream().map(CategoryResponse::new).collect(Collectors.toSet()));
 		return categories;
 	}
 }

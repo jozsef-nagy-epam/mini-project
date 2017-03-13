@@ -33,6 +33,6 @@ public class WisdomListRestController {
 	@ResponseStatus(HttpStatus.OK)
 	public WisdomListResponse getWisdomsByCategories(@PathVariable("category") String category) {
 		return new WisdomListResponse(category, wisdomSearchService.getWisdomsByCategory(category).stream()
-				.map(transformer::convert).collect(Collectors.toList()));
+				.map(transformer::convert).collect(Collectors.toSet()));
 	}
 }

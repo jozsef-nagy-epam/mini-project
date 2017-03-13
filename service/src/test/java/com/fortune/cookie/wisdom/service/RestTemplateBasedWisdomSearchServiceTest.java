@@ -13,14 +13,14 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.RestTemplate;
 
-import com.fortune.cookie.wisdom.config.RepositoryData;
+import com.fortune.cookie.wisdom.config.URLBuilder;
 import com.fortune.cookie.wisdom.service.domain.Wisdom;
 
 public class RestTemplateBasedWisdomSearchServiceTest {
 	@InjectMocks
 	private RestTemplateBasedWisdomSearchService underTest;
 	@Mock
-	private RepositoryData repoData;
+	private URLBuilder repoData;
 	@Mock
 	private RestTemplate restTemplate;
 
