@@ -2,7 +2,6 @@ package com.fortune.cookie.wisdom.web.controller;
 
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.instanceOf;
 
 import java.util.Arrays;
 import java.util.HashSet;
@@ -47,8 +46,7 @@ public class WisdomListRestControllerTest {
 		// THEN
 		assertThat("category is the same as requested", response.getCategory(), equalTo(category));
 		assertThat("size of response list", response.getWisdoms().size() == 1);
-		assertThat("response type check", response.getWisdoms().iterator().next(), instanceOf(WisdomResponse.class));
-		assertThat("response contains the correct wisdom", ((WisdomResponse) response.getWisdoms().iterator().next()),
+		assertThat("response contains the correct wisdom", response.getWisdoms().iterator().next(),
 				equalTo(wisdomResponse));
 	}
 }

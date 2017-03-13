@@ -2,7 +2,6 @@ package com.fortune.cookie.wisdom.web.controller;
 
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.instanceOf;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -42,7 +41,6 @@ public class WisdomRestControllerTest {
 		// WHEN
 		AbstractResponse response = underTest.getWisdomByCategoryAndId(category, id);
 		// THEN
-		assertThat("response type check", response, instanceOf(WisdomResponse.class));
-		assertThat("response contains the correct wisdom", ((WisdomResponse) response), equalTo(wisdomResponse));
+		assertThat("response contains the correct wisdom", response, equalTo(wisdomResponse));
 	}
 }
