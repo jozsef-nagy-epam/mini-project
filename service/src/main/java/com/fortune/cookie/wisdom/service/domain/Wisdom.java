@@ -38,4 +38,32 @@ public class Wisdom {
 		this.category = category;
 	}
 
+	public static class WisdomBuilder {
+		private Wisdom wisdom;
+
+		public WisdomBuilder() {
+			wisdom = new Wisdom();
+		}
+
+		public WisdomBuilder withId(Long id) {
+			wisdom.setId(id);
+			return this;
+		}
+
+		public WisdomBuilder withCategory(String category) {
+			wisdom.setCategory(category);
+			return this;
+		}
+
+		public WisdomBuilder withText(String text) {
+			wisdom.setText(text);
+			return this;
+		}
+
+		public Wisdom build() {
+			Wisdom result = wisdom;
+			wisdom = new Wisdom();
+			return result;
+		}
+	}
 }
