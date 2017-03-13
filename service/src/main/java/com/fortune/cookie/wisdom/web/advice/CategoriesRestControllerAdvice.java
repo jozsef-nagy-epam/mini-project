@@ -11,7 +11,7 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseBodyAdvice;
 
 import com.fortune.cookie.wisdom.web.controller.CategoriesRestController;
 import com.fortune.cookie.wisdom.web.domain.CategoryListResponse;
-import com.fortune.cookie.wisdom.web.domain.factory.ResponseLinkFactory;
+import com.fortune.cookie.wisdom.web.factory.ResponseLinkFactory;
 
 @ControllerAdvice(assignableTypes = CategoriesRestController.class)
 public class CategoriesRestControllerAdvice implements ResponseBodyAdvice<CategoryListResponse> {

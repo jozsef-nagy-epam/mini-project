@@ -12,7 +12,7 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseBodyAdvice;
 import com.fortune.cookie.wisdom.web.controller.WisdomListRestController;
 import com.fortune.cookie.wisdom.web.domain.WisdomListResponse;
 import com.fortune.cookie.wisdom.web.domain.WisdomResponse;
-import com.fortune.cookie.wisdom.web.domain.factory.ResponseLinkFactory;
+import com.fortune.cookie.wisdom.web.factory.ResponseLinkFactory;
 
 @ControllerAdvice(assignableTypes = WisdomListRestController.class)
 public class WisdomListRestControllerAdvice implements ResponseBodyAdvice<WisdomListResponse> {

@@ -1,4 +1,4 @@
-package com.fortune.cookie.wisdom.web.domain.factory;
+package com.fortune.cookie.wisdom.web.factory;
 
 import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
 import static org.springframework.hateoas.mvc.ControllerLinkBuilder.methodOn;
