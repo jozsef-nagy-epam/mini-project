@@ -1,4 +1,4 @@
-package com.fortune.cookie.wisdom.config.exceptionhandling;
+package com.fortune.cookie.wisdom.web.advice;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.MethodParameter;
@@ -9,17 +9,17 @@ import org.springframework.http.server.ServerHttpResponse;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseBodyAdvice;
 
-import com.fortune.cookie.wisdom.web.controller.WisdomRestController;
-import com.fortune.cookie.wisdom.web.domain.WisdomResponse;
+import com.fortune.cookie.wisdom.web.controller.CategoriesRestController;
+import com.fortune.cookie.wisdom.web.domain.CategoryListResponse;
 import com.fortune.cookie.wisdom.web.domain.factory.ResponseLinkFactory;
 
-@ControllerAdvice(basePackageClasses = WisdomRestController.class)
-public class LinkerAdvice implements ResponseBodyAdvice<WisdomResponse> {
+@ControllerAdvice(assignableTypes = CategoriesRestController.class)
+public class CategoriesRestControllerAdvice implements ResponseBodyAdvice<CategoryListResponse> {
 
 	private ResponseLinkFactory linkFactory;
 
 	@Autowired
-	public LinkerAdvice(ResponseLinkFactory linkFactory) {
+	public CategoriesRestControllerAdvice(ResponseLinkFactory linkFactory) {
 		super();
 		this.linkFactory = linkFactory;
 	}
@@ -30,10 +30,12 @@ public class LinkerAdvice implements ResponseBodyAdvice<WisdomResponse> {
 	}
 
 	@Override
-	public WisdomResponse beforeBodyWrite(WisdomResponse body, MethodParameter returnType,
+	public CategoryListResponse beforeBodyWrite(CategoryListResponse body, MethodParameter returnType,
 			MediaType selectedContentType, Class<? extends HttpMessageConverter<?>> selectedConverterType,
 			ServerHttpRequest request, ServerHttpResponse response) {
-		body.addLink(linkFactory.getLinkForWisdom(body.getCategory(), body.getId(), "self"));
+		body.getCategories().forEach(
+				category -> category.addLink(linkFactory.getLinkForWisdomList(category.getCategory(), "wisdoms")));
+		body.addLink(linkFactory.getLinkForCategories("self"));
 		return body;
 	}
 

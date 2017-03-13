@@ -1,6 +1,5 @@
 package com.fortune.cookie.wisdom.web.controller;
 
-import java.util.List;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,7 +10,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.fortune.cookie.wisdom.service.WisdomSearchService;
-import com.fortune.cookie.wisdom.web.domain.AbstractResponse;
+import com.fortune.cookie.wisdom.web.domain.CategoryListResponse;
 import com.fortune.cookie.wisdom.web.domain.CategoryResponse;
 import com.fortune.cookie.wisdom.web.transformer.WisdomToWisdomResponseTransformer;
 
@@ -33,7 +32,9 @@ public class CategoriesRestController {
 
 	@GetMapping("/categories")
 	@ResponseStatus(HttpStatus.OK)
-	public List<AbstractResponse> getCategories() {
-		return wisdomSearchService.getCategories().stream().map(CategoryResponse::new).collect(Collectors.toList());
+	public CategoryListResponse getCategories() {
+		CategoryListResponse categories = new CategoryListResponse(
+				wisdomSearchService.getCategories().stream().map(CategoryResponse::new).collect(Collectors.toList()));
+		return categories;
 	}
 }

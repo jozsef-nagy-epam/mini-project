@@ -15,17 +15,34 @@ import com.fortune.cookie.wisdom.service.domain.exception.ResponseConvertExcepti
 public class RepositoryResponseErrorHandler implements ResponseErrorHandler {
 
 	@Override
-	public void handleError(ClientHttpResponse response) throws IOException {
-		throw new RepositoryException(readBody(response.getBody(), response.getStatusCode()), response.getStatusCode());
-	}
-
-	@Override
 	public boolean hasError(ClientHttpResponse response) throws IOException {
 		return (response.getStatusCode().series() == HttpStatus.Series.CLIENT_ERROR
 				|| response.getStatusCode().series() == HttpStatus.Series.SERVER_ERROR);
 	}
 
-	private String readBody(InputStream body, HttpStatus statusCode) {
+	@Override
+	public void handleError(ClientHttpResponse response) throws IOException {
+		if (response.getStatusCode().series() == HttpStatus.Series.SERVER_ERROR) {
+			throw new RepositoryException("The service is not available please try again later",
+					HttpStatus.SERVICE_UNAVAILABLE);
+		} else {
+			respondToClientError(response);
+		}
+
+	}
+
+	private void respondToClientError(ClientHttpResponse response) throws IOException {
+		String errorMessage;
+		try {
+			errorMessage = readBody(response.getBody());
+		} catch (ResponseConvertException e) {
+			throw new RepositoryException("The service is not available please try again later",
+					HttpStatus.SERVICE_UNAVAILABLE);
+		}
+		throw new RepositoryException(errorMessage, response.getStatusCode());
+	}
+
+	private String readBody(InputStream body) {
 		StringBuilder out = new StringBuilder();
 		try (BufferedReader reader = new BufferedReader(new InputStreamReader(body));) {
 			String line;
@@ -34,7 +51,7 @@ public class RepositoryResponseErrorHandler implements ResponseErrorHandler {
 			}
 		} catch (IOException e) {
 			e.printStackTrace();
-			throw new ResponseConvertException("The resource server responded with " + statusCode, e);
+			throw new ResponseConvertException("Error during reading error from body ", e);
 		}
 		return out.toString();
 	}

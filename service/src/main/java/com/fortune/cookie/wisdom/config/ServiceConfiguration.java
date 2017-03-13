@@ -10,7 +10,7 @@ import com.fortune.cookie.wisdom.config.exceptionhandling.RepositoryResponseErro
 public class ServiceConfiguration {
 
 	@Bean
-	public RestTemplate getRestTemplate() {
+	public RestTemplate restTemplate() {
 		RestTemplate rt = new RestTemplate();
 		rt.setErrorHandler(new RepositoryResponseErrorHandler());
 		return rt;

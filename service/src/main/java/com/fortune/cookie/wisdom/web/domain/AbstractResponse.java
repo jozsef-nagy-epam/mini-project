@@ -13,7 +13,7 @@ public class AbstractResponse {
 	private final Set<Link> links;
 
 	public AbstractResponse() {
-		links = new HashSet();
+		links = new HashSet<>();
 	}
 
 	public void addLink(Link link) {
