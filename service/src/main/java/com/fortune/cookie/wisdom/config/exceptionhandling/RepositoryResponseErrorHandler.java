@@ -5,14 +5,16 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.client.ClientHttpResponse;
 import org.springframework.web.client.ResponseErrorHandler;
 
 import com.fortune.cookie.wisdom.service.domain.exception.RepositoryException;
-import com.fortune.cookie.wisdom.service.domain.exception.ResponseConvertException;
 
 public class RepositoryResponseErrorHandler implements ResponseErrorHandler {
+	private static Logger LOGGER = LoggerFactory.getLogger(RepositoryResponseErrorHandler.class);
 
 	@Override
 	public boolean hasError(ClientHttpResponse response) throws IOException {
@@ -23,6 +25,8 @@ public class RepositoryResponseErrorHandler implements ResponseErrorHandler {
 	@Override
 	public void handleError(ClientHttpResponse response) throws IOException {
 		if (response.getStatusCode().series() == HttpStatus.Series.SERVER_ERROR) {
+			String responseBody = readBody(response.getBody());
+			LOGGER.error("The resource server responded with {}. Message: {}", response.getStatusCode(), responseBody);
 			throw new RepositoryException("The service is not available please try again later",
 					HttpStatus.SERVICE_UNAVAILABLE);
 		} else {
@@ -32,14 +36,9 @@ public class RepositoryResponseErrorHandler implements ResponseErrorHandler {
 	}
 
 	private void respondToClientError(ClientHttpResponse response) throws IOException {
-		String errorMessage;
-		try {
-			errorMessage = readBody(response.getBody());
-		} catch (ResponseConvertException e) {
-			throw new RepositoryException("The service is not available please try again later",
-					HttpStatus.SERVICE_UNAVAILABLE);
-		}
-		throw new RepositoryException(errorMessage, response.getStatusCode());
+		String responseBody = readBody(response.getBody());
+		LOGGER.error("The resource server responded with {}. Message: {}", response.getStatusCode(), responseBody);
+		throw new RepositoryException(responseBody, response.getStatusCode());
 	}
 
 	private String readBody(InputStream body) {
@@ -50,8 +49,7 @@ public class RepositoryResponseErrorHandler implements ResponseErrorHandler {
 				out.append(line);
 			}
 		} catch (IOException e) {
-			e.printStackTrace();
-			throw new ResponseConvertException("Error during reading error from body ", e);
+			LOGGER.error("Error occured during reading response body: {}", e.getMessage());
 		}
 		return out.toString();
 	}
