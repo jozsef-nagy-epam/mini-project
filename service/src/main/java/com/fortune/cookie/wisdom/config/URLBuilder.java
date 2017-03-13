@@ -19,25 +19,28 @@ public class URLBuilder {
 	private String wisdomsByCategory;
 	@Value("${getWisdomsByCategoryAndId}")
 	private String wisdomsByCategoryAndId;
+	private Map<String, String> parameters;
+
+	public URLBuilder() {
+		super();
+		parameters = new HashMap<>();
+	}
 
 	public URI getCategoriesURI() {
-		UriTemplate uri = new UriTemplate(rootUrl + categories);
-		return uri.expand();
+		return new UriTemplate(rootUrl + categories).expand();
 	}
 
 	public URI getWisdomsByCategoryURI(String category) {
 		UriTemplate uri = new UriTemplate(rootUrl + wisdomsByCategory);
-		Map<String, String> parameters = new HashMap<>();
-		parameters.put("category", category);
-		return uri.expand(parameters);
+		addParam("category", category);
+		return expandURI(uri);
 	}
 
 	public URI getWisdomByCategoryAndIdURI(String category, Long id) {
 		UriTemplate uri = new UriTemplate(rootUrl + wisdomsByCategoryAndId);
-		Map<String, String> parameters = new HashMap<>();
-		parameters.put("category", category);
-		parameters.put("id", id.toString());
-		return uri.expand(parameters);
+		addParam("category", category);
+		addParam("id", id.toString());
+		return expandURI(uri);
 	}
 
 	String getRootUrl() {
@@ -72,4 +75,13 @@ public class URLBuilder {
 		this.wisdomsByCategoryAndId = wisdomsByCategoryAndId;
 	}
 
+	private void addParam(String key, String value) {
+		parameters.put(key, value);
+	}
+
+	private URI expandURI(UriTemplate template) {
+		URI result = template.expand(parameters);
+		parameters.clear();
+		return result;
+	}
 }
