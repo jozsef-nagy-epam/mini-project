@@ -17,18 +17,15 @@ import com.fortune.cookie.wisdom.service.RestTemplateBasedWisdomSearchService;
 import com.fortune.cookie.wisdom.service.WisdomSearchService;
 import com.fortune.cookie.wisdom.web.domain.CategoryListResponse;
 import com.fortune.cookie.wisdom.web.domain.CategoryResponse;
-import com.fortune.cookie.wisdom.web.transformer.WisdomToWisdomResponseTransformer;
 
 public class CategoriesRestControllerTest {
 	private CategoriesRestController underTest;
 	private WisdomSearchService service;
-	private WisdomToWisdomResponseTransformer transformer;
 
 	@Before
 	public void setUp() {
 		service = Mockito.mock(RestTemplateBasedWisdomSearchService.class);
-		transformer = Mockito.mock(WisdomToWisdomResponseTransformer.class);
-		underTest = new CategoriesRestController(service, transformer);
+		underTest = new CategoriesRestController(service);
 	}
 
 	@Test

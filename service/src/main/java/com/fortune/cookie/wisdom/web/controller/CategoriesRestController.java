@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.RestController;
 import com.fortune.cookie.wisdom.service.WisdomSearchService;
 import com.fortune.cookie.wisdom.web.domain.CategoryListResponse;
 import com.fortune.cookie.wisdom.web.domain.CategoryResponse;
-import com.fortune.cookie.wisdom.web.transformer.WisdomToWisdomResponseTransformer;
 
 @RestController
 @RequestMapping("/api")
@@ -20,14 +19,10 @@ public class CategoriesRestController {
 
 	private final WisdomSearchService wisdomSearchService;
 
-	private final WisdomToWisdomResponseTransformer transformer;
-
 	@Autowired
-	public CategoriesRestController(WisdomSearchService wisdomSearchService,
-			WisdomToWisdomResponseTransformer transformer) {
+	public CategoriesRestController(WisdomSearchService wisdomSearchService) {
 		super();
 		this.wisdomSearchService = wisdomSearchService;
-		this.transformer = transformer;
 	}
 
 	@GetMapping("/categories")
