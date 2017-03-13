@@ -1,10 +1,10 @@
-package com.fortune.cookie.wisdom.config;
+package com.fortune.cookie.wisdom.service.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.client.RestTemplate;
 
-import com.fortune.cookie.wisdom.config.exceptionhandling.RepositoryResponseErrorHandler;
+import com.fortune.cookie.wisdom.exceptionhandling.RepositoryResponseErrorHandler;
 
 @Configuration
 public class ServiceConfiguration {

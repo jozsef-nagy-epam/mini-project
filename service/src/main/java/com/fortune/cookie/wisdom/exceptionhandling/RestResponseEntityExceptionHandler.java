@@ -1,4 +1,4 @@
-package com.fortune.cookie.wisdom.config.exceptionhandling;
+package com.fortune.cookie.wisdom.exceptionhandling;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

@@ -1,10 +1,12 @@
-package com.fortune.cookie.wisdom.config;
+package com.fortune.cookie.wisdom.service.config;
 
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.MatcherAssert.assertThat;
 
 import org.junit.Before;
 import org.junit.Test;
+
+import com.fortune.cookie.wisdom.service.config.URLBuilder;
 
 public class URLBuilderTest {
 	private static final String ROOT_URL = "http://repository/";

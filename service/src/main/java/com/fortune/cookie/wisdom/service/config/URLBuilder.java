@@ -1,4 +1,4 @@
-package com.fortune.cookie.wisdom.config;
+package com.fortune.cookie.wisdom.service.config;
 
 import java.net.URI;
 import java.util.HashMap;

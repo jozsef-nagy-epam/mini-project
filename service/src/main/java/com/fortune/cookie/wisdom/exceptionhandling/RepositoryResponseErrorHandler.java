@@ -1,4 +1,4 @@
-package com.fortune.cookie.wisdom.config.exceptionhandling;
+package com.fortune.cookie.wisdom.exceptionhandling;
 
 import java.io.BufferedReader;
 import java.io.IOException;
