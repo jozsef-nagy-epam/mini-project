@@ -1,0 +1,12 @@
+version: '2'
+services:
+  repository: 
+    build: ./repository
+    ports:
+        - "8000:8080"
+  service:
+    build: ./service
+    ports:
+        - "8080:8080"
+    links:
+        - repository
