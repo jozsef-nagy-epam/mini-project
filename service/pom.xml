@@ -46,12 +46,6 @@
 			<artifactId>hamcrest-junit</artifactId>
 			<version>2.0.0.0</version>
 		</dependency>
-		<dependency>
-			<groupId>net.sf.oval</groupId>
-			<artifactId>oval</artifactId>
-			<version>1.87</version>
-		</dependency>
-
 	</dependencies>
 
 	<build>

@@ -17,28 +17,22 @@ public class URLBuilder {
 	private String wisdomsByCategory;
 	@Value("${getWisdomsByCategoryAndId}")
 	private String wisdomsByCategoryAndId;
-	private Map<String, String> parameters;
 
 	public URLBuilder() {
 		super();
-		parameters = new HashMap<>();
 	}
 
 	public URI getCategoriesURI() {
-		return new UriTemplate(categories).expand();
+		return new UrlPreparer(categories).build();
 	}
 
 	public URI getWisdomsByCategoryURI(String category) {
-		UriTemplate uri = new UriTemplate(wisdomsByCategory);
-		addParam("category", category);
-		return expandURI(uri);
+		return new UrlPreparer(wisdomsByCategory).addParam("category", category).build();
 	}
 
 	public URI getWisdomByCategoryAndIdURI(String category, Long id) {
-		UriTemplate uri = new UriTemplate(wisdomsByCategoryAndId);
-		addParam("category", category);
-		addParam("id", id.toString());
-		return expandURI(uri);
+		return new UrlPreparer(wisdomsByCategoryAndId).addParam("category", category).addParam("id", id.toString())
+				.build();
 	}
 
 	String getCategories() {
@@ -65,13 +59,24 @@ public class URLBuilder {
 		this.wisdomsByCategoryAndId = wisdomsByCategoryAndId;
 	}
 
-	private void addParam(String key, String value) {
-		parameters.put(key, value);
+	private class UrlPreparer {
+		private final UriTemplate template;
+		private final Map<String, String> params;
+
+		public UrlPreparer(String url) {
+			template = new UriTemplate(url);
+			params = new HashMap<>();
+		}
+
+		public UrlPreparer addParam(String key, String value) {
+			params.put(key, value);
+			return this;
+		}
+
+		public URI build() {
+			return template.expand(params);
+		}
+
 	}
 
-	private URI expandURI(UriTemplate template) {
-		URI result = template.expand(parameters);
-		parameters.clear();
-		return result;
-	}
 }
