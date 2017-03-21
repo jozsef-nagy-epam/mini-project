@@ -15,25 +15,25 @@ import com.fortune.cookie.wisdom.service.domain.WisdomList;
 @Service
 public class RestTemplateBasedWisdomSearchService implements WisdomSearchService {
 
-	private final URLBuilder repoData;
+	private final URLBuilder urlBuilder;
 	private final RestTemplate restTemplate;
 
 	@Autowired
 	public RestTemplateBasedWisdomSearchService(URLBuilder repoData, RestTemplate restTemplate) {
-		this.repoData = repoData;
+		this.urlBuilder = repoData;
 		this.restTemplate = restTemplate;
 	}
 
 	@Override
 	public Set<String> getCategories() {
-		ResponseEntity<CategoryList> response = restTemplate.getForEntity(repoData.getCategoriesURI(),
+		ResponseEntity<CategoryList> response = restTemplate.getForEntity(urlBuilder.getCategoriesURI(),
 				CategoryList.class);
 		return response.getBody().getCategories();
 	}
 
 	@Override
 	public Set<Wisdom> getWisdomsByCategory(String category) {
-		ResponseEntity<WisdomList> response = restTemplate.getForEntity(repoData.getWisdomsByCategoryURI(category),
+		ResponseEntity<WisdomList> response = restTemplate.getForEntity(urlBuilder.getWisdomsByCategoryURI(category),
 				WisdomList.class);
 		return response.getBody().getWisdoms();
 	}
@@ -41,7 +41,7 @@ public class RestTemplateBasedWisdomSearchService implements WisdomSearchService
 	@Override
 	public Wisdom getWisdomByCategoryAndId(String category, Long wisdomId) {
 		ResponseEntity<Wisdom> response = restTemplate
-				.getForEntity(repoData.getWisdomByCategoryAndIdURI(category, wisdomId), Wisdom.class);
+				.getForEntity(urlBuilder.getWisdomByCategoryAndIdURI(category, wisdomId), Wisdom.class);
 		return response.getBody();
 	}
 

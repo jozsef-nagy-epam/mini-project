@@ -11,8 +11,6 @@ import org.springframework.web.util.UriTemplate;
 @Component
 public class URLBuilder {
 
-	@Value("${rootUrl}")
-	private String rootUrl;
 	@Value("${getCategories}")
 	private String categories;
 	@Value("${getWisdomsByCategory}")
@@ -27,28 +25,20 @@ public class URLBuilder {
 	}
 
 	public URI getCategoriesURI() {
-		return new UriTemplate(rootUrl + categories).expand();
+		return new UriTemplate(categories).expand();
 	}
 
 	public URI getWisdomsByCategoryURI(String category) {
-		UriTemplate uri = new UriTemplate(rootUrl + wisdomsByCategory);
+		UriTemplate uri = new UriTemplate(wisdomsByCategory);
 		addParam("category", category);
 		return expandURI(uri);
 	}
 
 	public URI getWisdomByCategoryAndIdURI(String category, Long id) {
-		UriTemplate uri = new UriTemplate(rootUrl + wisdomsByCategoryAndId);
+		UriTemplate uri = new UriTemplate(wisdomsByCategoryAndId);
 		addParam("category", category);
 		addParam("id", id.toString());
 		return expandURI(uri);
-	}
-
-	String getRootUrl() {
-		return rootUrl;
-	}
-
-	void setRootUrl(String rootUrl) {
-		this.rootUrl = rootUrl;
 	}
 
 	String getCategories() {

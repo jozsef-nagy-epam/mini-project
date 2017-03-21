@@ -38,7 +38,7 @@ public class WisdomToWisdomResponseTransformerTest {
 	}
 
 	private Wisdom createWisdomSpy() {
-		Wisdom wisdom = new Wisdom(1L, "TEST", "general");
+		Wisdom wisdom = Wisdom.builder().withId(1L).withText("test_text").withCategory("general").build();
 		return Mockito.spy(wisdom);
 	}
 }

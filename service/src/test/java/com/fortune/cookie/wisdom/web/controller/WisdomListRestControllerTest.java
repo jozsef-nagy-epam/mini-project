@@ -25,7 +25,7 @@ public class WisdomListRestControllerTest {
 	private WisdomToWisdomResponseTransformer transformer;
 
 	private String category = "test_category";
-	private Wisdom wisdom = new Wisdom(1L, category, "test_text");
+	private Wisdom wisdom = Wisdom.builder().withId(1L).withText("test_text").withCategory(category).build();
 	private WisdomResponse wisdomResponse = new WisdomResponse(1L, category, "test_text");
 
 	@Before

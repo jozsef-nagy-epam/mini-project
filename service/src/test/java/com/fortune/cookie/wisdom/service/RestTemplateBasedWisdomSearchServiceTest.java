@@ -65,7 +65,7 @@ public class RestTemplateBasedWisdomSearchServiceTest {
 		String category = "test_category";
 		Long wisdomId = 1L;
 		URI uri = new URI("");
-		Wisdom wisdom = new Wisdom();
+		Wisdom wisdom = Wisdom.builder().build();
 		ResponseEntity<Wisdom> response = new ResponseEntity<>(wisdom, HttpStatus.OK);
 		BDDMockito.given(urlBuilder.getWisdomByCategoryAndIdURI(category, wisdomId)).willReturn(uri);
 		BDDMockito.given(restTemplate.getForEntity(uri, Wisdom.class)).willReturn(response);
@@ -75,4 +75,5 @@ public class RestTemplateBasedWisdomSearchServiceTest {
 		BDDMockito.then(urlBuilder).should(BDDMockito.times(1)).getWisdomByCategoryAndIdURI(category, wisdomId);
 		BDDMockito.then(restTemplate).should(BDDMockito.times(1)).getForEntity(uri, Wisdom.class);
 	}
+
 }

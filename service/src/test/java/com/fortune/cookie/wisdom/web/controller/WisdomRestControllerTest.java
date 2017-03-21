@@ -33,7 +33,8 @@ public class WisdomRestControllerTest {
 		// GIVEN
 		String category = "test_category";
 		long id = 1L;
-		Wisdom wisdom = new Wisdom(id, category, "test_text");
+		Wisdom wisdom = Wisdom.builder().withId(1L).withText("test_text").withCategory(category).build();
+		;
 		WisdomResponse wisdomResponse = new WisdomResponse(id, category, "test_text");
 		BDDMockito.given(transformer.convert(wisdom)).willReturn(wisdomResponse);
 		BDDMockito.given(service.getWisdomByCategoryAndId(BDDMockito.anyString(), BDDMockito.anyLong()))

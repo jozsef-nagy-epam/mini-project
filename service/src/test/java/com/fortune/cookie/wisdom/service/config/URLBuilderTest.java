@@ -6,20 +6,16 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.fortune.cookie.wisdom.service.config.URLBuilder;
-
 public class URLBuilderTest {
-	private static final String ROOT_URL = "http://repository/";
-	private static final String WISDOMS_BY_CATEGORY_AND_ID_URL = "test/categories/{category}/{id}";
-	private static final String WISDOMS_BY_CATEGORIES_URL = "test/categories/{category}";
-	private static final String CATEGORIES_URL = "test/categories";
+	private static final String WISDOMS_BY_CATEGORY_AND_ID_URL = "http://repository/test/categories/{category}/{id}";
+	private static final String WISDOMS_BY_CATEGORIES_URL = "http://repository/test/categories/{category}";
+	private static final String CATEGORIES_URL = "http://repository/test/categories";
 
 	private URLBuilder underTest;
 
 	@Before
 	public void setUp() {
 		this.underTest = new URLBuilder();
-		underTest.setRootUrl(ROOT_URL);
 		underTest.setCategories(CATEGORIES_URL);
 		underTest.setWisdomsByCategory(WISDOMS_BY_CATEGORIES_URL);
 		underTest.setWisdomsByCategoryAndId(WISDOMS_BY_CATEGORY_AND_ID_URL);
